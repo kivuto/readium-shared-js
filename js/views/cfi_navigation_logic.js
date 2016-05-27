@@ -114,14 +114,16 @@ var CfiNavigationLogic = function($viewport, $iframe, options){
      * @returns {Object}
      */
     function getVisibleContentOffsets() {
-        if(isVerticalWritingMode()){
+        if (isVerticalWritingMode()) {
             return {
-                top: (options.paginationInfo ? options.paginationInfo.pageOffset : 0)
+                top: (options.paginationInfo ? options.paginationInfo.pageOffset : 0),
+                left: 0
             };
         }
+
         return {
-            left: (options.paginationInfo ? options.paginationInfo.pageOffset : 0)
-                * (isPageProgressionRightToLeft() ? -1 : 1)
+            top: 0,
+            left: 0
         };
     }
 
