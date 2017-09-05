@@ -60,7 +60,7 @@ var ReflowableView = function(options, reader){
     var _$epubHtml;
     var _lastPageRequest = undefined;
 
-    var _cfiClassBlacklist = ["cfi-marker", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"];
+    var _cfiClassBlacklist = ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"];
     var _cfiElementBlacklist = [];
     var _cfiIdBlacklist = ["MathJax_Message", "MathJax_SVG_Hidden"];
 

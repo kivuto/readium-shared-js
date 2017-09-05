@@ -178,7 +178,10 @@ function($, _, Class, HighlightHelpers, HighlightGroup) {
             var arbitraryPackageDocCFI = "/99!"
             var fullFakeCFI = "epubcfi(" + arbitraryPackageDocCFI + CFI + ")";
             if (this.epubCFI.Interpreter.isRangeCfi(fullFakeCFI)) {
-                CFIRangeInfo = this.epubCFI.getRangeTargetElements(fullFakeCFI, contentDoc, ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight"], [], ["MathJax_Message", "MathJax_SVG_Hidden"]);
+                CFIRangeInfo = this.epubCFI.getRangeTargetElements(fullFakeCFI, contentDoc, 
+                    ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"], 
+                    [], 
+                    ["MathJax_Message", "MathJax_SVG_Hidden"]);
 
                 var startNode = CFIRangeInfo.startElement,
                     endNode = CFIRangeInfo.endElement;
@@ -194,7 +197,10 @@ function($, _, Class, HighlightHelpers, HighlightGroup) {
                 range.setEnd(endNode, CFIRangeInfo.endOffset);
                 selectedElements = range.getNodes();
             } else {
-                var element = this.epubCFI.getTargetElement(fullFakeCFI, contentDoc, ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight"], [], ["MathJax_Message", "MathJax_SVG_Hidden"]);
+                var element = this.epubCFI.getTargetElement(fullFakeCFI, contentDoc, 
+                    ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"], 
+                    [], 
+                    ["MathJax_Message", "MathJax_SVG_Hidden"]);
                 selectedElements = [element ? element[0] : null];
                 range = null;
             }
@@ -450,7 +456,10 @@ function($, _, Class, HighlightHelpers, HighlightGroup) {
                 startNode,
                 startOffset,
                 endNode,
-                endOffset, ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight"], [], ["MathJax_Message", "MathJax_SVG_Hidden"]
+                endOffset, 
+                ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"], 
+                [], 
+                ["MathJax_Message", "MathJax_SVG_Hidden"]
             );
             return rangeCFIComponent;
         },
@@ -464,7 +473,10 @@ function($, _, Class, HighlightHelpers, HighlightGroup) {
             if (startNode.nodeType === Node.TEXT_NODE) {
                 charOffsetCFI = this.epubCFI.generateCharacterOffsetCFIComponent(
                     startNode,
-                    startOffset, ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight"], [], ["MathJax_Message", "MathJax_SVG_Hidden"]
+                    startOffset, 
+                    ["cfi-marker", "cfi-blacklist", "mo-cfi-highlight", "resize-sensor", "resize-sensor-expand", "resize-sensor-shrink", "resize-sensor-inner"], 
+                    [], 
+                    ["MathJax_Message", "MathJax_SVG_Hidden"]
                 );
             }
             return charOffsetCFI;
