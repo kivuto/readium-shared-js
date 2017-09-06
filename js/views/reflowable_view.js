@@ -549,6 +549,18 @@ var ReflowableView = function(options, reader){
         _lastPageRequest.setFirstAndLastVisibleCfi(_firstVisibleCfi.contentCFI, _lastVisibleCfi.contentCFI);
     };
 
+    this.getCurrentPosition = function() {
+        var currentPositionDeferred = $.Deferred();
+        if (!_lastPageRequest || !(_lastPageRequest.firstVisibleCfi))
+            self.saveCurrentPosition();
+        if (_lastPageRequest && _lastPageRequest.firstVisibleCfi)
+            currentPositionDeferred.resolve(createBookmarkFromCfi(_lastPageRequest.firstVisibleCfi));
+        else
+            currentPositionDeferred.reject();
+        return currentPositionDeferred.promise();
+    };
+
+
     this.restoreCurrentPosition = function() {
         if (_lastPageRequest) {
             _openPageInternal(_lastPageRequest);

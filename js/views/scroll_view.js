@@ -66,6 +66,7 @@ var ScrollView = function (options, isContinuousScroll, reader) {
     var _currentPageRequest;
     var _$contentFrame;
     var _$el;
+    var _currentPositionDeferred;
 
     var _stopTransientViewUpdate = false;
 
@@ -276,6 +277,8 @@ var ScrollView = function (options, isContinuousScroll, reader) {
             && !_isLoadingNewSpineItemOnPageRequest) {
 
             self.resetCurrentPosition();
+
+            _currentPositionDeferred = $.Deferred();
 
             updateTransientViews();
             onPaginationChanged(self);
@@ -489,16 +492,34 @@ var ScrollView = function (options, isContinuousScroll, reader) {
     this.saveCurrentPosition = function() {
         // If there's a deferred page request, there's no point in saving the current position
         // as it's going to change soon
-        if (_deferredPageRequest) {
-            return;
-        }
+        try {
+            if (_deferredPageRequest) {
+                return;
+            }
 
-        var _firstVisibleCfi = self.getFirstVisibleCfi();
-        var spineItem = _spine.getItemById(_firstVisibleCfi.idref);
-        if (spineItem) {
-            _currentPageRequest = new PageOpenRequest(spineItem, self);
-            _currentPageRequest.setElementCfi(_firstVisibleCfi.contentCFI);
+            var _firstVisibleCfi = self.getFirstVisibleCfi();
+            var spineItem = _spine.getItemById(_firstVisibleCfi.idref);
+            if (spineItem) {
+                _currentPageRequest = new PageOpenRequest(spineItem, self);
+                _currentPageRequest.setElementCfi(_firstVisibleCfi.contentCFI);
+                _currentPositionDeferred.resolve(_firstVisibleCfi);
+            }
+        } finally {
+            if (_currentPositionDeferred && _currentPositionDeferred.state() === "pending") {
+                _currentPositionDeferred.reject();
+            }
+            _currentPositionDeferred = undefined;
         }
+    };
+
+    this.getCurrentPosition = function() {
+        if (_currentPositionDeferred)
+            return _currentPositionDeferred.promise();
+
+        _currentPositionDeferred = $.Deferred();
+        var promise = _currentPositionDeferred.promise();
+        self.saveCurrentPosition();
+        return promise;
     };
 
     this.restoreCurrentPosition = function() {
