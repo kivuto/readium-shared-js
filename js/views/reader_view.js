@@ -280,6 +280,8 @@ var ReaderView = function (options) {
             _.defer(function () {
                 Globals.logEvent("PAGINATION_CHANGED", "EMIT", "reader_view.js");
                 self.emit(Globals.Events.PAGINATION_CHANGED, pageChangeData);
+                // Kivuto - causes errors when emitted by scroll view with no spineItem set
+                if (!pageChangeData.spineItem) return;
                 _.defer(function () {
                     _externalAgentSupport.updateContentDocument(pageChangeData.spineItem);
                 });
