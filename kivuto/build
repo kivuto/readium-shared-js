@@ -1,0 +1,3 @@
+cd ..
+RJS_PLUGINS_OVERRIDE=yes npm run build
+patch ./build-output/_single-bundle/readium-shared-js_all.js -i ./kivuto/readium-shared-js_all-sizzle.patch
