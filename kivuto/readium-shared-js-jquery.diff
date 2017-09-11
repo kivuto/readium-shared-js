@@ -1,0 +1,32 @@
+--- D:/Repos/readium-js-kivuto-github/readium-shared-js/node_modules/jquery/dist/jquery - Copy.js	Mon Sep 11 12:24:41 2017
++++ D:/Repos/readium-js-kivuto-github/readium-shared-js/node_modules/jquery/dist/jquery.js	Mon Sep 11 14:30:06 2017
+@@ -769,6 +769,14 @@
+ 
+ 	// Try to shortcut find operations (as opposed to filters) in HTML documents
+ 	if ( !seed ) {
++		
++		 // KIVUTO: Modified version of jQuery for issue in IE11 (Kaizen-ReaderWindowsDesktop 123b38ae)
++        try {
++            document === document; //may cause permission denied
++        }
++        catch (err) {
++            document = window.document; //resets document, and no more permission denied errors.
++        }
+ 
+ 		if ( ( context ? context.ownerDocument || context : preferredDoc ) !== document ) {
+ 			setDocument( context );
+@@ -6080,7 +6088,13 @@
+ 			view = window;
+ 		}
+ 
+-		return view.getComputedStyle( elem );
++		//Bug 11024 in windows 7, ie11 windows.getComputedStyle sometime crash, redefine it to avoid the issue.
++		try {
++			return view.getComputedStyle( elem );
++		}
++		catch (ex) {
++			return document.getComputedStyle(elem, null);
++		}
+ 	};
+ 
+ 
