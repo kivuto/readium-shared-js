@@ -862,7 +862,7 @@ var CfiNavigationLogic = function (options) {
             if (range.collapsed && range.startContainer.nodeType === Node.TEXT_NODE) {
                 return EPUBcfi.generateCharacterOffsetCFIComponent(
                     range.startContainer, range.startOffset,
-                    ['cfi-marker'], [], ["MathJax_Message", "MathJax_SVG_Hidden"]);
+                    ['cfi-marker', 'cfi-blacklist'], [], ["MathJax_Message", "MathJax_SVG_Hidden"]);
             } else if (range.collapsed) {
                 return self.getCfiForElement(range.startContainer);
             } else {
