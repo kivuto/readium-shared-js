@@ -96,14 +96,19 @@ var CfiNavigationLogic = function (options) {
         }
 
     function getNodeRangeClientRect(startNode, startOffset, endNode, endOffset) {
-        var range = createRange();
+        var range, boundingBox;
+
+        range = createRange();
         range.setStart(startNode, startOffset ? startOffset : 0);
         if (endNode.nodeType === Node.ELEMENT_NODE) {
             range.setEnd(endNode, endOffset ? endOffset : endNode.childNodes.length);
         } else if (endNode.nodeType === Node.TEXT_NODE) {
             range.setEnd(endNode, endOffset ? endOffset : 0);
         }
-        return normalizeRectangle(range.getBoundingClientRect(), 0, 0);
+        // getBoundingClientRect not supported on Safari; fall back to getClientRects
+        boundingBox = range.getBoundingClientRect();
+        boundingBox = !!(boundingBox.x && boundingBox.y) ? boundingBox : range.getClientRects()[0]
+        return normalizeRectangle(boundingBox, 0, 0);     
     }
 
     function getNodeClientRectList(node, visibleContentOffsets) {
