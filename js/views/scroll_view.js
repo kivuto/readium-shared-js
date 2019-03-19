@@ -1283,7 +1283,7 @@ var ScrollView = function (options, isContinuousScroll, reader) {
 
         var elementRange = {top: 0, bottom: 0};
         var boundingClientRect = domRange.getBoundingClientRect();
-        boundingClientRect = !!(boundingClientRect.x && boundingClientRect.y) ? boundingClientRect : range.getClientRects()[0]
+        boundingClientRect = !!(boundingClientRect.x && boundingClientRect.y) ? boundingClientRect : domRange.getClientRects()[0]
         elementRange.top = boundingClientRect.top + pageRange.top;
         elementRange.bottom = elementRange.top + boundingClientRect.height;
 
